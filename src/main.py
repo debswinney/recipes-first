@@ -1,5 +1,9 @@
+import domain
+
 def main():
-    pass
+    r = domain.Recipe()
+    print(r)
+
 
 if __name__ == "__main__":
     main()
