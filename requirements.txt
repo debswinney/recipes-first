@@ -1,0 +1,4 @@
+Django==1.10.5
+djangorestframework==3.5.3
+virtualenv==15.1.0
+virtualenvwrapper-win==1.2.1

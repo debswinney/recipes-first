@@ -1,2 +1,5 @@
 # Ignore virtual env
 venv*
+db.sqlite3
+.idea*
+migrations*
