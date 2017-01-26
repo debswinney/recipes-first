@@ -1,12 +1,23 @@
 from django.test import TestCase, Client
 from rest_framework.test import APIClient
-from rest.models import Meal
+from rest.models import Schedule, ScheduleDay, Activity, Meal
+from django.contrib.auth.models import User
 import datetime
 
 class MealApiTestCase(TestCase):
     def setUp(self):
-        Meal.objects.create( name="Breakfast", timeFrom=datetime.time(9), timeTo=datetime.time(10) )
-        Meal.objects.create( name="Lunch", timeFrom=datetime.time(12), timeTo=datetime.time(13))
+        self.user = User.objects.create(username='spectacles')
+        self.schedule = Schedule.objects.create(name='Test Schedule', owner=self.user)
+        self.scheduleday = ScheduleDay.objects.create(schedule=self.schedule, name='Someday')
+        self.meal1 = Meal.objects.create( day = self.scheduleday, name="Breakfast", timeFrom=datetime.time(9), timeTo=datetime.time(10) )
+        self.meal2 = Meal.objects.create( day = self.scheduleday, name="Lunch", timeFrom=datetime.time(12), timeTo=datetime.time(13))
+
+    def tearDown(self):
+        self.meal2.delete()
+        self.meal1.delete()
+        self.scheduleday.delete()
+        self.schedule.delete()
+        self.user.delete()
 
     def test_list_as_json(self):
         # Check request for list as json

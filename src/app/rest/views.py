@@ -1,6 +1,6 @@
 from rest.models import Meal, Activity, ScheduleDay, Schedule
 from rest.serializers import MealSerializer, UserSerializer, ActivitySerializer, ScheduleSerializer, ScheduleDaySerializer
-from rest_framework import generics
+from rest_framework import generics, permissions
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -31,6 +31,7 @@ class ScheduleDayDetail(generics.RetrieveUpdateDestroyAPIView):
 class ScheduleList(generics.ListCreateAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -38,6 +39,7 @@ class ScheduleList(generics.ListCreateAPIView):
 class ScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
